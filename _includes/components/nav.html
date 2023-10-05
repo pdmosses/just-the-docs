@@ -1,7 +1,9 @@
 {%- comment -%}
-  Include as: {%- include components/nav.html pages=pages -%}
-  Depends on: include.pages.
-  Results in: HTML for the navigation panel.
+Include as: {%- include components/nav.html pages=pages -%}
+     or as: {%- include components/nav.html pages=pages class=string -%}
+  Depends on: include.pages and include.class.
+  Results in: HTML for the navigation panel,
+    inserting include.class at the top level.
   Includes:
     sorted_pages.html
   Overwrites:
@@ -27,7 +29,7 @@
 {%- assign third_level_pages = sorted_pages
     | where_exp: "item", "item.grand_parent != nil" -%}
 
-<ul class="nav-list">
+<ul class="nav-list{% if include.class %} {{ include.class }}{% endif %}">
 {%- for node in first_level_pages -%}
   <li class="nav-list-item">
     {%- if node.has_children -%}
