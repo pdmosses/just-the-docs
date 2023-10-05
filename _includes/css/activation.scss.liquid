@@ -96,27 +96,13 @@
   and on the page collections.
 {%- endcomment -%}
 
-{%- assign activation_pages_top_size = site.html_pages
-        | where_exp:"item", "item.title != nil"
-        | where_exp:"item", "item.parent == nil"
-        | where_exp:"item", "item.nav_exclude != true"
-        | size -%}
-
-{%- assign activation_index = 0 -%}
-{%- if activation_pages_top_size > 0  -%}
-  {%- assign activation_index = activation_index | plus: 1 -%}
-{%- endif -%}
-{%- if site.nav_external_links -%}
-  {%- assign activation_index = activation_index | plus: 1 -%}
-{%- endif -%}
-
 {%- if page.collection == nil -%}
 
   {%- capture activation_collection_prefix -%}
   .site-nav > .nav-list:nth-child(1):not(.nav-category-list)
   {%- endcapture -%}
   {%- capture activation_other_collection_prefix -%}
-  .site-nav > .nav-list:nth-child(n+{{ activation_index }})
+  .site-nav > .nav-list.nav-category-list
   {%- endcapture -%}
 
 {%- else -%}
@@ -127,12 +113,11 @@
       {%- break -%}
     {%- endif -%}
   {%- endfor -%}
-  {%- assign activation_index = activation_index | plus: activation_collection_index -%}
   {%- capture activation_collection_prefix -%}
-  .site-nav > .nav-list:nth-of-type({{ activation_index }}){% if site.just_the_docs.collections[page.collection].nav_fold == true %} > .nav-list-item > .nav-list{% endif %}
+  .site-nav > .nav-list.nav-category-list:nth-of-type({{ activation_collection_index }}){% if site.just_the_docs.collections[page.collection].nav_fold == true %} > .nav-list-item > .nav-list{% endif %}
   {%- endcapture -%}
   {%- capture activation_other_collection_prefix -%}
-  .site-nav > .nav-list:not(:nth-of-type({{ activation_index }}))
+  .site-nav > .nav-list:not(.nav-category-list:nth-of-type({{ activation_collection_index }}))
   {%- endcapture -%}
 
 {%- endif -%}
