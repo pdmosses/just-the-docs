@@ -52,10 +52,10 @@
             </ul>
           {% else %}
             <div class="nav-category">{{ collection_value.name }}</div>
-            {% include components/nav.html pages=collection %}
+            {% include components/nav.html pages=collection class="nav-category-list" %}
           {% endif %}
         {% else %}
-          {% include components/nav.html pages=collection %}
+          {% include components/nav.html pages=collection class="nav-category-list" %}
         {% endif %}
       {% endif %}
     {% endfor %}
